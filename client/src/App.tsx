@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Auth from "./Components/Auth";
+import Start from "./Components/Start";
+import Quiz from "./Components/Quiz";
+import Complete from "./Components/Complete";
+import Profile from "./Components/Profile";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Auth />} />
+        <Route path="/start" element={<Start />} />
+        <Route path="/quiz/:difficulty" element={<Quiz />} />
+        <Route path="/complete" element={<Complete />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
