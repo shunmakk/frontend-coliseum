@@ -1,48 +1,46 @@
 import React, { useState } from "react";
 import { auth } from "../firebase";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
-import { error } from "console";
 
 const Auth: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-    } catch (err) {
-      console.error("サインインエラー", error);
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/start");
+    } catch (error) {
+      console.error("Sign in error:", error);
+      // エラーメッセージを表示するなどのエラーハンドリング
     }
   };
 
   return (
     <div>
-      <h1>サインイン</h1>
+      <h2>Sign In</h2>
       <form onSubmit={handleSignIn}>
-        <p>メールアドレス(*架空のメールアドレスでOK)</p>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="メールアドレスを入力してください"
+          placeholder="Email"
           required
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="パスワードを入力してください"
+          placeholder="Password"
           required
         />
-        <button type="submit">サインイン</button>
+        <button type="submit">Sign In</button>
       </form>
       <p>
-        アカウントが無い場合は作成して！ <Link to="/signup">Sign Up</Link>
+        Don't have an account? <Link to="/signup">Sign Up</Link>
       </p>
     </div>
   );
