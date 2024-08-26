@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Auth from "./Components/Auth";
+import SignUp from "./Components/SignUp";
 import Start from "./Components/Start";
 import Quiz from "./Components/Quiz";
 import Complete from "./Components/Complete";
@@ -11,6 +12,7 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Auth />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/start" element={<Start />} />
         <Route path="/quiz/:difficulty" element={<Quiz />} />
         <Route path="/complete" element={<Complete />} />
