@@ -29,7 +29,7 @@ const Profile: React.FC = () => {
 
   return (
     <div>
-      <h2>プロファイル</h2>
+      <h2>Profile</h2>
       <p>ユーザー名: {profile.name}</p>
       <p>総プレイ回数: {profile.totalGames}</p>
       <p>総スコア: {profile.totalScore}</p>
