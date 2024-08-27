@@ -55,6 +55,7 @@ const Quiz: React.FC = () => {
       } else {
         // ユーザードキュメントが存在しない場合、新規作成する
         await setDoc(userRef, {
+          name: user?.uid,
           totalGames: 1,
           totalScore: score,
         });

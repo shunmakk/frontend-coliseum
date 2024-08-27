@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  //   const [name, setName] = useState("");
   const navigate = useNavigate();
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -27,7 +27,7 @@ const SignUp: React.FC = () => {
         },
         body: JSON.stringify({
           uid: user.uid,
-          name: name,
+          //   name: name,
           email: email,
         }),
       });
@@ -47,13 +47,13 @@ const SignUp: React.FC = () => {
     <div>
       <h2>Sign Up</h2>
       <form onSubmit={handleSignUp}>
-        <input
+        {/* <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Name"
           required
-        />
+        /> */}
         <input
           type="email"
           value={email}
