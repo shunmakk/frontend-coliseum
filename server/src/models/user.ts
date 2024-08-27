@@ -5,6 +5,8 @@ export interface User {
   uid: string; // Firebase UID
   name: string;
   email: string;
+  totalGames: number;
+  totalScore: number;
 }
 
 export const USER_COLLECTION = "users";
