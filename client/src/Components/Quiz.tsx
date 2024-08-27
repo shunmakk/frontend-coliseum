@@ -4,8 +4,10 @@ import { Difficulty, Question } from "../types";
 import Modal from "./Modal";
 import { auth, db } from "../firebase";
 import { doc, increment, updateDoc } from "firebase/firestore";
+import { getDoc, setDoc } from "firebase/firestore";
 
 const Quiz: React.FC = () => {
+  const user = auth.currentUser;
   const { difficulty } = useParams<{ difficulty: Difficulty }>();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -44,18 +46,28 @@ const Quiz: React.FC = () => {
     const user = auth.currentUser;
     if (user) {
       const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        totalGames: increment(1),
-        totalScore: increment(score),
-      });
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        await updateDoc(userRef, {
+          totalGames: increment(1),
+          totalScore: increment(score),
+        });
+      } else {
+        // ユーザードキュメントが存在しない場合、新規作成する
+        await setDoc(userRef, {
+          totalGames: 1,
+          totalScore: score,
+        });
+      }
     }
-    navigate("/comolete");
+    navigate("/complete", { state: { score, total: questions.length } });
   };
 
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
     <div>
+      <p>{user?.uid}さん</p>
       <h2>
         問題{currentQuestionIndex + 1}/{questions.length}
       </h2>
