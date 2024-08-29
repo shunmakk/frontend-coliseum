@@ -1,6 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,5 +19,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+//Firebase初期化時に永続性を設定
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("永続性をbrowserSessionPersistenceの設定に成功しました");
+  })
+  .catch((error) => {
+    console.log("永続性をbrowserSessionPersistenceの設定に失敗しました", error);
+  });
 
 export { db, auth };
