@@ -4,7 +4,7 @@ import { Difficulty } from "../types";
 import { auth } from "../firebase";
 
 const Start: React.FC = () => {
-  const user = auth.currentUser;
+  //   const user = auth.currentUser;
   const navigate = useNavigate();
 
   const handleDiffcultySelect = (difficulty: Difficulty) => {
@@ -13,7 +13,7 @@ const Start: React.FC = () => {
 
   return (
     <div>
-      <p>{user?.uid}さん</p>
+      {/* <p>{user?.displayName}さん</p> */}
       <h1>フロントエンドコロシアム</h1>
       <h2>難易度を選択してください：</h2>
       <button onClick={() => handleDiffcultySelect("easy")}>

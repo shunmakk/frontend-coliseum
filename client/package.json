@@ -43,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "@types/webidl-conversions": "^7.0.3",
+    "@types/whatwg-url": "^11.0.5",
     "eslint": "^8.57.0"
   },
   "proxy": "http://localhost:5000"
