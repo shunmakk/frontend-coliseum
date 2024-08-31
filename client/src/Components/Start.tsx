@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Difficulty } from "../types";
-import { auth } from "../firebase";
+// import { auth } from "../firebase";
 
 const Start: React.FC = () => {
   //   const user = auth.currentUser;
