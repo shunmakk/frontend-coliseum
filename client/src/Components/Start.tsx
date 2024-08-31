@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Difficulty } from "../types";
+import { auth } from "../firebase";
 
 const Start: React.FC = () => {
   //   const user = auth.currentUser;
@@ -8,6 +9,18 @@ const Start: React.FC = () => {
 
   const handleDiffcultySelect = (difficulty: Difficulty) => {
     navigate(`/quiz/${difficulty}`);
+  };
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("ログアウトしますか？");
+    if (confirmLogout) {
+      auth.signOut();
+      navigate("/");
+      setTimeout(() => {
+        window.alert("ログアウトに成功しました");
+      }, 500);
+    }
+    return;
   };
 
   return (
@@ -26,6 +39,7 @@ const Start: React.FC = () => {
       </button>
       <p>
         <Link to="/profile">プロフィール</Link>
+        <button onClick={handleLogout}>ログアウト</button>
       </p>
     </div>
   );
