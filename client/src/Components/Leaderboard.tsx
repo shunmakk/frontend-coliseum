@@ -123,6 +123,7 @@ const Leaderboard: React.FC = () => {
       <ScoreList
         title="平均スコアトップ10"
         leaderboard={averageScoreLeaderboard}
+        isAverage={true}
       />
     </div>
   );

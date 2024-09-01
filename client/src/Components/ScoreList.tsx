@@ -10,9 +10,14 @@ interface LeaderboardEntry {
 interface ScoreListProps {
   title: string;
   leaderboard: LeaderboardEntry[];
+  isAverage?: boolean; // 平均スコアのリストかどうかを示すフラグ
 }
 
-const ScoreList: React.FC<ScoreListProps> = ({ title, leaderboard }) => {
+const ScoreList: React.FC<ScoreListProps> = ({
+  title,
+  leaderboard,
+  isAverage = false,
+}) => {
   return (
     <div>
       <h3>{title}</h3>
@@ -24,7 +29,8 @@ const ScoreList: React.FC<ScoreListProps> = ({ title, leaderboard }) => {
               entry.isCurrentUser ? { fontWeight: "bold", color: "blue" } : {}
             }
           >
-            {entry.name}: {entry.totalScore}点
+            {entry.name}:{" "}
+            {isAverage ? entry.averageScore.toFixed(1) : entry.totalScore}点
             {entry.isCurrentUser && " (あなた)"}
           </li>
         ))}
