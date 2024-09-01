@@ -7,7 +7,7 @@ import { doc, increment, updateDoc } from "firebase/firestore";
 import { getDoc } from "firebase/firestore";
 
 const Quiz: React.FC = () => {
-  const user = auth.currentUser;
+  // const user = auth.currentUser;
   const { difficulty } = useParams<{ difficulty: Difficulty }>();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -15,6 +15,7 @@ const Quiz: React.FC = () => {
   const [score, setScore] = useState<number>(0);
   const [showModal, setShowModal] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
 
   //難易度別に問題のデータを取り出す
   useEffect(() => {
@@ -35,6 +36,7 @@ const Quiz: React.FC = () => {
 
   const nextQuesion = () => {
     setShowModal(false);
+    setShowExplanation(false);
     if (currentQuestionIndex < questions.length - 1) {
       setcurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -68,7 +70,7 @@ const Quiz: React.FC = () => {
 
   return (
     <div>
-      <p>{user?.uid}さん</p>
+      {/* <p>{user?.uid}さん</p> */}
       <h2>
         問題{currentQuestionIndex + 1}/{questions.length}
       </h2>
@@ -78,14 +80,25 @@ const Quiz: React.FC = () => {
           {option}
         </button>
       ))}
-      <Modal show={showModal} onClose={nextQuesion}>
+      <Modal
+        show={showModal}
+        onClose={() => setShowExplanation(false)}
+        explanation={false}
+      >
         <h3>{isCorrect ? "正解！" : "不正解"}</h3>
         <p>
           {isCorrect
             ? "次の問題へ進みます。"
-            : "正解は: " +
-              currentQuestion?.options[currentQuestion.correctAnswer]}
+            : `正解は: ${
+                currentQuestion?.options[currentQuestion.correctAnswer]
+              }`}
         </p>
+        <button onClick={nextQuesion}>次の問題へ</button>
+        <button onClick={() => setShowExplanation(true)}>解説を見る</button>
+      </Modal>
+      <Modal show={showExplanation} onClose={nextQuesion} explanation={true}>
+        <h3>解説</h3>
+        <p>{currentQuestion?.explanation}</p>
       </Modal>
     </div>
   );

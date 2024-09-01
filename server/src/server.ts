@@ -20,6 +20,15 @@ app.get("/api/questions/:difficulty", async (req, res) => {
       .aggregate([
         { $match: { difficulty: difficulty } },
         { $sample: { size: 5 } },
+        {
+          $project: {
+            _id: 0,
+            text: 1,
+            options: 1,
+            correctAnswer: 1,
+            explanation: 1,
+          },
+        },
       ])
       .toArray();
 
