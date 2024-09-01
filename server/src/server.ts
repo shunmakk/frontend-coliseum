@@ -51,6 +51,46 @@ app.post("/api/users", async (req, res) => {
   }
 });
 
+app.get("/api/leaderboard/:userId", async (req, res) => {
+  const db = getDb();
+  const { userId } = req.params;
+
+  try {
+    //Top10のスコア獲得
+    const topScores = await db
+      .collection<User>(USER_COLLECTION)
+      .find()
+      .sort({ totalScore: -1 })
+      .limit(10)
+      .project({ name: 1, totalScore: 1, uid: 1 })
+      .toArray();
+
+    //ユーザー自身のスコアとランクを取得
+    const user = await db
+      .collection<User>(USER_COLLECTION)
+      .findOne({ uid: userId });
+    const userRank = user
+      ? (await db
+          .collection<User>(USER_COLLECTION)
+          .countDocuments({ totalScore: { $gt: user.totalScore } })) + 1
+      : null;
+
+    //JSOn形式で返却
+    res.json({
+      topScores: topScores.map((user) => ({
+        name: user.name,
+        topScores: user.totalScore,
+        isCurrentUser: user.uid === userId,
+      })),
+      userRank,
+      UserScore: user ? user.totalScore : null,
+    });
+  } catch (err) {
+    console.log("Error fetching leaderboard:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
