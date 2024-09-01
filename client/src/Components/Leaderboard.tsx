@@ -10,7 +10,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../utils/AuthContext";
-import { Link } from "react-router-dom";
+import LoadingOrError from "./ LoadingOrError";
+import ScoreList from "./ScoreList";
+import UserStats from "./UserStatus";
 
 interface LeaderboardEntry {
   name: string;
@@ -107,69 +109,21 @@ const Leaderboard: React.FC = () => {
     fetchLeaderboard();
   }, [user]);
 
-  if (!user)
-    return (
-      <div>
-        <p>ローディング...</p>
-        <Link to="/start">ホーム画面に戻る</Link>
-      </div>
-    );
+  if (!user) <LoadingOrError />;
 
   return (
     <div>
       <h2>ランキング機能</h2>
-      {userData && (
-        <div>
-          <p>
-            あなたの総スコア: {userData.totalScore}点 (ランク: {userTotalRank}
-            位)
-          </p>
-          <p>
-            あなたの平均スコア: {userData.averageScore.toFixed(1)}点 (ランク:{" "}
-            {userAverageRank}位)
-          </p>
-        </div>
-      )}
-      <h3>総スコアトップ10</h3>
-      <ol>
-        {totalScoreLeaderboard.map((entry, index) => (
-          <li
-            key={index}
-            style={
-              entry.isCurrentUser ? { fontWeight: "bold", color: "blue" } : {}
-            }
-          >
-            {entry.name}: {entry.totalScore}点
-            {entry.isCurrentUser && " (あなた)"}
-          </li>
-        ))}
-      </ol>
-      <h3>平均スコアトップ10</h3>
-      <ol>
-        {averageScoreLeaderboard.map((entry, index) => (
-          <li
-            key={index}
-            style={
-              entry.isCurrentUser ? { fontWeight: "bold", color: "blue" } : {}
-            }
-          >
-            {entry.name}: {entry.averageScore.toFixed(1)}点
-            {entry.isCurrentUser && " (あなた)"}
-          </li>
-        ))}
-      </ol>
-      {userTotalRank && userTotalRank > 10 && (
-        <p>
-          ※ あなたの総スコアは現在{userTotalRank}
-          位です。頑張ってトップ10入りを目指しましょう！
-        </p>
-      )}
-      {userAverageRank && userAverageRank > 10 && (
-        <p>
-          ※ あなたの平均スコアは現在{userAverageRank}
-          位です。頑張ってトップ10入りを目指しましょう！
-        </p>
-      )}
+      <UserStats
+        userData={userData}
+        userTotalRank={userTotalRank}
+        userAverageRank={userAverageRank}
+      />
+      <ScoreList title="総スコアトップ10" leaderboard={totalScoreLeaderboard} />
+      <ScoreList
+        title="平均スコアトップ10"
+        leaderboard={averageScoreLeaderboard}
+      />
     </div>
   );
 };

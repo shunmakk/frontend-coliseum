@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 interface UserProfile {
   name: string;
+  email: string;
   totalGames: number;
   totalScore: number;
 }
@@ -31,6 +32,7 @@ const Profile: React.FC = () => {
     <div>
       <h2>Profile</h2>
       <p>ユーザー名: {profile.name}</p>
+      <p>メールアドレス: {profile.email}</p>
       <p>総プレイ回数: {profile.totalGames}</p>
       <p>総スコア: {profile.totalScore}</p>
       <p>
