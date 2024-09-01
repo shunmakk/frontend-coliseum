@@ -8,6 +8,7 @@ import Complete from "./Components/Complete";
 import Profile from "./Components/Profile";
 import { AuthProvider } from "./utils/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Leaderboard from "./Components/Leaderboard";
 
 const App: React.FC = () => {
   return (
@@ -45,6 +46,14 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/leaderboard"
+            element={
+              <ProtectedRoute>
+                <Leaderboard />
               </ProtectedRoute>
             }
           />

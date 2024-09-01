@@ -4,7 +4,7 @@ import { Difficulty, Question } from "../types";
 import Modal from "./Modal";
 import { auth, db } from "../firebase";
 import { doc, increment, updateDoc } from "firebase/firestore";
-import { getDoc, setDoc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
 
 const Quiz: React.FC = () => {
   const user = auth.currentUser;
@@ -45,20 +45,20 @@ const Quiz: React.FC = () => {
   const handleComplete = async () => {
     const user = auth.currentUser;
     if (user) {
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+        const newTotalGames = (userData?.totalGames || 0) + 1;
+        const newTotalScore = (userData?.totalScore || 0) + score;
+        const newAverageScore = newTotalScore / newTotalGames;
         await updateDoc(userRef, {
           totalGames: increment(1),
           totalScore: increment(score),
+          averageScore: newAverageScore,
         });
-      } else {
-        // ユーザードキュメントが存在しない場合、新規作成する
-        await setDoc(userRef, {
-          name: user?.uid,
-          totalGames: 1,
-          totalScore: score,
-        });
+      } catch (error) {
+        console.error("スコアのupdateに失敗しました", error);
       }
     }
     navigate("/complete", { state: { score, total: questions.length } });
