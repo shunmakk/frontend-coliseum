@@ -39,6 +39,8 @@ const Start: React.FC = () => {
       </button>
       <p>
         <Link to="/profile">プロフィール</Link>
+        <Link to="/leaderboard">ランキング</Link>
+
         <button onClick={handleLogout}>ログアウト</button>
       </p>
     </div>
