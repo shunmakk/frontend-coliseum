@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../utils/AuthContext";
-import LoadingOrError from "./ LoadingOrError";
+import LoadingOrError from "./LoadingOrError";
 import ScoreList from "./ScoreList";
 import UserStats from "./UserStatus";
 
