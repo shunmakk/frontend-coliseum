@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Difficulty, Question } from "../types";
 import Modal from "./Modal";
 import { auth, db } from "../firebase";
-import { doc, increment, updateDoc } from "firebase/firestore";
-import { getDoc } from "firebase/firestore";
+import { doc, increment, updateDoc, getDoc } from "firebase/firestore";
 import LoadingOrError from "./LoadingOrError";
-import { useCallback } from "react";
 
 const QUIZ_STATE_KEY = "quizState";
 
 interface QuizState {
-  questions: Question[];
+  questions: (Question & { userAnswer?: number })[];
   currentQuestionIndex: number;
   score: number;
   difficulty: Difficulty;
@@ -27,7 +25,12 @@ const Quiz: React.FC = () => {
 
   const fetchQuestions = useCallback(async () => {
     try {
-      const response = await fetch(`/api/questions/${difficulty}`);
+      const response = await fetch(`/api/questions/${difficulty}`, {
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
       if (response.ok) {
         const questions = await response.json();
         setQuizState({
@@ -37,21 +40,37 @@ const Quiz: React.FC = () => {
           difficulty: difficulty as Difficulty,
         });
       } else {
-        console.error("Failed to fetch questions");
+        console.error("questionsのフェッチに失敗しました");
       }
     } catch (error) {
-      console.error("Error fetching questions:", error);
+      console.error("questionsのフェッチ周りのエラー", error);
     }
   }, [difficulty]);
 
+  const recoverQuizState = (savedState: QuizState): QuizState => {
+    const recoveredScore = savedState.questions.reduce((score, question) => {
+      if (question.userAnswer === question.correctAnswer) {
+        return score + 1;
+      }
+      return score;
+    }, 0);
+
+    return {
+      ...savedState,
+      score: recoveredScore,
+    };
+  };
+
   useEffect(() => {
     const savedState = localStorage.getItem(QUIZ_STATE_KEY);
-    if (savedState) {
-      setQuizState(JSON.parse(savedState));
+    if (savedState && JSON.parse(savedState).difficulty === difficulty) {
+      const parsedState = JSON.parse(savedState);
+      setQuizState(recoverQuizState(parsedState));
     } else {
+      localStorage.removeItem(QUIZ_STATE_KEY);
       fetchQuestions();
     }
-  }, [fetchQuestions]);
+  }, [fetchQuestions, difficulty]);
 
   useEffect(() => {
     if (quizState) {
@@ -59,24 +78,35 @@ const Quiz: React.FC = () => {
     }
   }, [quizState]);
 
-  const handleAnswer = (selctedAnswer: number) => {
-    if (!quizState) {
+  const handleAnswer = (selectedAnswer: number) => {
+    if (!quizState) return;
+
+    const currentQuestion = quizState.questions[quizState.currentQuestionIndex];
+
+    if (currentQuestion.userAnswer !== undefined) {
+      console.log("既に回答済み");
       return;
     }
-    const currentQuestion = quizState.questions[quizState.currentQuestionIndex];
-    const correct = selctedAnswer === currentQuestion.correctAnswer;
+
+    const correct = selectedAnswer === currentQuestion.correctAnswer;
     setIsCorrect(correct);
     setShowModal(true);
     setQuizState((prevState) => {
       if (!prevState) return null;
+      const newQuestions = [...prevState.questions];
+      newQuestions[prevState.currentQuestionIndex] = {
+        ...currentQuestion,
+        userAnswer: selectedAnswer,
+      };
       return {
         ...prevState,
+        questions: newQuestions,
         score: correct ? prevState.score + 1 : prevState.score,
       };
     });
   };
 
-  const nextQuesion = () => {
+  const nextQuestion = () => {
     setShowModal(false);
     setShowExplanation(false);
     setQuizState((prevState) => {
@@ -122,7 +152,6 @@ const Quiz: React.FC = () => {
   if (!quizState) return <LoadingOrError />;
 
   const currentQuestion = quizState.questions[quizState.currentQuestionIndex];
-  //5問目を判別する
   const isLastQuestion =
     quizState.currentQuestionIndex === quizState.questions.length - 1;
 
@@ -133,7 +162,22 @@ const Quiz: React.FC = () => {
       </h2>
       <p>{currentQuestion?.text}</p>
       {currentQuestion?.options.map((option, index) => (
-        <button key={index} onClick={() => handleAnswer(index)}>
+        <button
+          key={index}
+          onClick={() => handleAnswer(index)}
+          disabled={currentQuestion.userAnswer !== undefined}
+          style={{
+            backgroundColor:
+              currentQuestion.userAnswer === index
+                ? index === currentQuestion.correctAnswer
+                  ? "lightgreen"
+                  : "lightcoral"
+                : currentQuestion.userAnswer !== undefined &&
+                  index === currentQuestion.correctAnswer
+                ? "lightgreen"
+                : "white",
+          }}
+        >
           {option}
         </button>
       ))}
@@ -152,16 +196,18 @@ const Quiz: React.FC = () => {
                 currentQuestion?.options[currentQuestion.correctAnswer]
               }`}
         </p>
-        <button onClick={nextQuesion}>
-          {isLastQuestion ? "リザルト画面へ" : "次の問題へ"}
-        </button>
+        {!isLastQuestion && <button onClick={nextQuestion}>次の問題へ</button>}
+        {isLastQuestion && (
+          <button onClick={handleComplete}>リザルト画面へ</button>
+        )}
         <button onClick={() => setShowExplanation(true)}>解説を見る</button>
       </Modal>
-      <Modal show={showExplanation} onClose={nextQuesion} explanation={true}>
+      <Modal show={showExplanation} onClose={nextQuestion} explanation={true}>
         <h3>解説</h3>
         <p>{currentQuestion?.explanation}</p>
       </Modal>
     </div>
   );
 };
+
 export default Quiz;
