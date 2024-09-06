@@ -11,6 +11,12 @@ app.use(express.json());
 connectToDatabase();
 
 app.get("/api/questions/:difficulty", async (req, res) => {
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
   const difficulty = req.params.difficulty as "easy" | "medium" | "hard";
   const db = getDb();
 
