@@ -8,11 +8,11 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { db } from "../firebase";
-import { useAuth } from "../utils/AuthContext";
-import LoadingOrError from "./LoadingOrError";
-import ScoreList from "./ScoreList";
-import UserStats from "./UserStatus";
+import { db } from "../../firebase";
+import { useAuth } from "../../utils/AuthContext";
+import LoadingOrError from "../../Components/LoadingOrError";
+import ScoreList from "../../Components/ScoreList";
+import UserStats from "../../Components/UserStatus";
 
 interface LeaderboardEntry {
   name: string;

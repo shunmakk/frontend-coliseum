@@ -1,21 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Auth from "./Components/Auth";
-import SignUp from "./Components/SignUp";
-import Start from "./Components/Start";
-import Quiz from "./Components/Quiz";
-import Complete from "./Components/Complete";
-import Profile from "./Components/Profile";
+import SignIn from "./Page/auth/SignIn";
+import { SignUp } from "./Page/auth/SignUp";
+import Start from "./Page/main/Start";
+import Quiz from "./Page/main/Quiz";
+import Complete from "./Page/main/Complete";
+import Profile from "./Page/main/Profile";
 import { AuthProvider } from "./utils/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import Leaderboard from "./Components/Leaderboard";
+import Leaderboard from "./Page/main/Leaderboard";
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/start"

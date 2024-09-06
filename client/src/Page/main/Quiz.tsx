@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Difficulty, Question } from "../types";
-import Modal from "./Modal";
-import { auth, db } from "../firebase";
+import { Difficulty, Question } from "../../types";
+import Modal from "../../Components/Modal";
+import { auth, db } from "../../firebase";
 import { doc, increment, updateDoc, getDoc } from "firebase/firestore";
-import LoadingOrError from "./LoadingOrError";
+import LoadingOrError from "../../Components/LoadingOrError";
 
 const QUIZ_STATE_KEY = "quizState";
 
