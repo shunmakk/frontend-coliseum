@@ -17,6 +17,9 @@ const Quiz: React.FC = () => {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
 
+  //5問目を判別する
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+
   //難易度別に問題のデータを取り出す
   useEffect(() => {
     fetch(`/api/questions/${difficulty}`)
@@ -70,7 +73,6 @@ const Quiz: React.FC = () => {
 
   return (
     <div>
-      {/* <p>{user?.uid}さん</p> */}
       <h2>
         問題{currentQuestionIndex + 1}/{questions.length}
       </h2>
@@ -88,12 +90,16 @@ const Quiz: React.FC = () => {
         <h3>{isCorrect ? "正解！" : "不正解"}</h3>
         <p>
           {isCorrect
-            ? "次の問題へ進みます。"
+            ? isLastQuestion
+              ? "これでクイズは終了です！"
+              : "次の問題に進みましょう！"
             : `正解は: ${
                 currentQuestion?.options[currentQuestion.correctAnswer]
               }`}
         </p>
-        <button onClick={nextQuesion}>次の問題へ</button>
+        <button onClick={nextQuesion}>
+          {isLastQuestion ? "リザルト画面へ" : "次の問題へ"}
+        </button>
         <button onClick={() => setShowExplanation(true)}>解説を見る</button>
       </Modal>
       <Modal show={showExplanation} onClose={nextQuesion} explanation={true}>
