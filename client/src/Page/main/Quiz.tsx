@@ -123,6 +123,14 @@ const Quiz: React.FC = () => {
     });
   };
 
+  const identificationButton = () => {
+    if (showExplanation === true) {
+      setShowExplanation(false);
+    } else {
+      setShowExplanation(true);
+    }
+  };
+
   const handleComplete = async () => {
     if (!quizState) return;
     const user = auth.currentUser;
@@ -200,7 +208,9 @@ const Quiz: React.FC = () => {
         {isLastQuestion && (
           <button onClick={handleComplete}>リザルト画面へ</button>
         )}
-        <button onClick={() => setShowExplanation(true)}>解説を見る</button>
+        <button onClick={identificationButton}>
+          {showExplanation ? "解説を閉じる" : "解説を見る"}
+        </button>
       </Modal>
       <Modal show={showExplanation} onClose={nextQuestion} explanation={true}>
         <h3>解説</h3>

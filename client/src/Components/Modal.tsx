@@ -7,20 +7,12 @@ interface ModalProps {
   explanation: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  show,
-  onClose,
-  children,
-  explanation,
-}) => {
+const Modal: React.FC<ModalProps> = ({ show, children }) => {
   if (!show) return null;
 
   return (
     <div className="modal">
-      <div className="modal-content">
-        {children}
-        {explanation ? null : <button onClick={onClose}>解説を閉じる</button>}
-      </div>
+      <div className="modal-content">{children}</div>
     </div>
   );
 };
