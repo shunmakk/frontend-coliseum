@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Difficulty, Question } from "../../types";
-import Modal from "../../Components/Modal";
 import { auth, db } from "../../firebase";
 import { doc, increment, updateDoc, getDoc } from "firebase/firestore";
 import LoadingOrError from "../../Components/LoadingOrError";
+import QuizQuestion from "../../Components/QuizQuestion";
+import QuizAnswerModal from "../../Components/QuizAnswerModal";
+import QuizExplanationModal from "../../Components/QuizExplanationModal";
 
 const QUIZ_STATE_KEY = "quizState";
 
@@ -123,14 +125,6 @@ const Quiz: React.FC = () => {
     });
   };
 
-  const identificationButton = () => {
-    if (showExplanation === true) {
-      setShowExplanation(false);
-    } else {
-      setShowExplanation(true);
-    }
-  };
-
   const handleComplete = async () => {
     if (!quizState) return;
     const user = auth.currentUser;
@@ -168,54 +162,23 @@ const Quiz: React.FC = () => {
       <h2>
         問題{quizState.currentQuestionIndex + 1}/{quizState.questions.length}
       </h2>
-      <p>{currentQuestion?.text}</p>
-      {currentQuestion?.options.map((option, index) => (
-        <button
-          key={index}
-          onClick={() => handleAnswer(index)}
-          disabled={currentQuestion.userAnswer !== undefined}
-          style={{
-            backgroundColor:
-              currentQuestion.userAnswer === index
-                ? index === currentQuestion.correctAnswer
-                  ? "lightgreen"
-                  : "lightcoral"
-                : currentQuestion.userAnswer !== undefined &&
-                  index === currentQuestion.correctAnswer
-                ? "lightgreen"
-                : "white",
-          }}
-        >
-          {option}
-        </button>
-      ))}
-      <Modal
+      <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
+      <QuizAnswerModal
         show={showModal}
+        isCorrect={isCorrect}
+        isLastQuestion={isLastQuestion}
+        correctAnswer={currentQuestion?.options[currentQuestion.correctAnswer]}
         onClose={() => setShowExplanation(false)}
-        explanation={false}
-      >
-        <h3>{isCorrect ? "正解！" : "不正解"}</h3>
-        <p>
-          {isCorrect
-            ? isLastQuestion
-              ? "これでクイズは終了です！"
-              : "次の問題に進みましょう！"
-            : `正解は: ${
-                currentQuestion?.options[currentQuestion.correctAnswer]
-              }`}
-        </p>
-        {!isLastQuestion && <button onClick={nextQuestion}>次の問題へ</button>}
-        {isLastQuestion && (
-          <button onClick={handleComplete}>リザルト画面へ</button>
-        )}
-        <button onClick={identificationButton}>
-          {showExplanation ? "解説を閉じる" : "解説を見る"}
-        </button>
-      </Modal>
-      <Modal show={showExplanation} onClose={nextQuestion} explanation={true}>
-        <h3>解説</h3>
-        <p>{currentQuestion?.explanation}</p>
-      </Modal>
+        onNextQuestion={nextQuestion}
+        onComplete={handleComplete}
+        showExplanation={showExplanation}
+        setShowExplanation={setShowExplanation}
+      />
+      <QuizExplanationModal
+        show={showExplanation}
+        explanation={currentQuestion?.explanation}
+        onClose={nextQuestion}
+      />
     </div>
   );
 };
