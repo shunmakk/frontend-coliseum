@@ -14,6 +14,7 @@ import LoadingOrError from "../../Components/LoadingOrError";
 import ScoreList from "../../Components/ScoreList";
 import UserStats from "../../Components/UserStatus";
 import LogoutButton from "../../Components/LogoutButton";
+import BackHomeButton from "../../Components/BackHomeButton";
 
 interface LeaderboardEntry {
   name: string;
@@ -126,6 +127,7 @@ const Leaderboard: React.FC = () => {
         leaderboard={averageScoreLeaderboard}
         isAverage={true}
       />
+      <BackHomeButton />
       <LogoutButton />
     </div>
   );

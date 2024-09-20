@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import BackHomeButton from "../../Components/BackHomeButton";
 
 const Complete: React.FC = () => {
   const location = useLocation();
@@ -13,7 +14,7 @@ const Complete: React.FC = () => {
       <p>
         あなたのスコア: {score} / {total}
       </p>
-      <button onClick={() => navigate("/start")}>ホームに戻る</button>
+      <BackHomeButton />
       <button onClick={() => navigate("/profile")}>プロフィールページ</button>
     </div>
   );
