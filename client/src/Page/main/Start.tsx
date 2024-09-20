@@ -8,7 +8,12 @@ const Start: React.FC = () => {
   const navigate = useNavigate();
 
   const handleDiffcultySelect = (difficulty: Difficulty) => {
-    navigate(`/quiz/${difficulty}`);
+    const confirm: boolean = window.confirm(
+      `難易度${difficulty}でクイズを開始しますか？`
+    );
+    if (confirm) {
+      navigate(`/quiz/${difficulty}`);
+    }
   };
 
   const handleLogout = () => {
@@ -29,13 +34,13 @@ const Start: React.FC = () => {
       <h1>フロントエンドコロシアム</h1>
       <h2>難易度を選択してください：</h2>
       <button onClick={() => handleDiffcultySelect("easy")}>
-        難易度(低) html,css,javascriptに関する問題
+        難易度(easy) html,css,javascriptに関する問題
       </button>
       <button onClick={() => handleDiffcultySelect("medium")}>
-        難易度(中) TypeScript、React,vue.jsに関する問題
+        難易度(medium) TypeScript、React,vue.jsに関する問題
       </button>
       <button onClick={() => handleDiffcultySelect("hard")}>
-        難易度(高) フロントエンドのパフォーマンスを問う問題
+        難易度(hard) フロントエンドのパフォーマンスを問う問題
       </button>
       <p>
         <Link to="/profile">プロフィール</Link>
