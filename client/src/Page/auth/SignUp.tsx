@@ -46,11 +46,10 @@ export const SignUp: React.FC = () => {
       if (response.ok) {
         navigate("/start");
       } else {
-        throw new Error("Failed to create user profile");
+        throw new Error("サインアップエラー");
       }
     } catch (error) {
-      console.error("Sign up error:", error);
-      // エラーメッセージを表示するなどのエラーハンドリング
+      console.error("予期せぬエラーが発生しました", error);
     }
   };
 
@@ -58,28 +57,35 @@ export const SignUp: React.FC = () => {
     <div>
       <h2>Sign Up</h2>
       <form onSubmit={handleSignUp}>
+        <label id="username">ユーザーネーム(8文字以内)</label>
         <input
           type="text"
+          name="username"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Name"
+          maxLength={8}
           required
         />
+        <label id="email">メールアドレス</label>
         <input
           type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           required
         />
+        <label id="password">パスワード</label>
         <input
           type="password"
+          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           required
         />
-        <button type="submit">Sign Up</button>
+        <button type="submit">サインアップ</button>
       </form>
     </div>
   );
