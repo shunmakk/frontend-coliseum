@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Difficulty } from "../../types";
-import { auth } from "../../firebase";
+import LogoutButton from "../../Components/LogoutButton";
 
 const Start: React.FC = () => {
   //   const user = auth.currentUser;
@@ -14,18 +14,6 @@ const Start: React.FC = () => {
     if (confirm) {
       navigate(`/quiz/${difficulty}`);
     }
-  };
-
-  const handleLogout = () => {
-    const confirmLogout = window.confirm("ログアウトしますか？");
-    if (confirmLogout) {
-      auth.signOut();
-      navigate("/");
-      setTimeout(() => {
-        window.alert("ログアウトに成功しました");
-      }, 500);
-    }
-    return;
   };
 
   return (
@@ -45,8 +33,7 @@ const Start: React.FC = () => {
       <p>
         <Link to="/profile">プロフィール</Link>
         <Link to="/leaderboard">ランキング</Link>
-
-        <button onClick={handleLogout}>ログアウト</button>
+        <LogoutButton />
       </p>
     </div>
   );

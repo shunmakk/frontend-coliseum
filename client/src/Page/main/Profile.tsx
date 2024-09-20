@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import LogoutButton from "../../Components/LogoutButton";
 
 interface UserProfile {
   name: string;
@@ -41,6 +42,7 @@ const Profile: React.FC = () => {
           ? (profile.totalScore / profile.totalGames).toFixed(2)
           : "N/A"}
       </p>
+      <LogoutButton />
     </div>
   );
 };
