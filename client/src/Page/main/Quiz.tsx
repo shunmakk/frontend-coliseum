@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Difficulty, Question } from "../../types";
+import { Difficulty, Question } from "../../utils/types";
 import { auth, db } from "../../firebase";
 import { doc, increment, updateDoc, getDoc } from "firebase/firestore";
 import LoadingOrError from "../../Components/LoadingOrError";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Difficulty } from "../../types";
+import { Difficulty } from "../../utils/types";
 import LogoutButton from "../../Components/LogoutButton";
 
 const Start: React.FC = () => {

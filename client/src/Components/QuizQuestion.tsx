@@ -1,5 +1,5 @@
 import React from "react";
-import { Question } from "../types";
+import { Question } from "../utils/types";
 
 interface QuizQuestionProps {
   question: Question & { userAnswer?: number };
