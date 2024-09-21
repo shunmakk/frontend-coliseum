@@ -55,7 +55,7 @@ export const SignUp: React.FC = () => {
 
   return (
     <div>
-      <h2>Sign Up</h2>
+      <h2 className="text-5xl">Sign Up</h2>
       <form onSubmit={handleSignUp}>
         <label id="username">ユーザーネーム(8文字以内)</label>
         <input
