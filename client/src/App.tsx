@@ -9,6 +9,7 @@ import Profile from "./Page/main/Profile";
 import { AuthProvider } from "./utils/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Leaderboard from "./Page/main/Leaderboard";
+import NotFound from "./Page/404/NotFound";
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="*" element={<NotFound />} />
           <Route
             path="/start"
             element={
