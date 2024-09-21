@@ -4,6 +4,7 @@ import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { Button } from "@chakra-ui/react";
 
 export const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -85,7 +86,14 @@ export const SignUp: React.FC = () => {
           placeholder="Password"
           required
         />
-        <button type="submit">サインアップ</button>
+        <Button
+          type="submit"
+          colorScheme="blue"
+          width="full"
+          className="mt-6 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition duration-300 transform hover:scale-105"
+        >
+          サインアップ
+        </Button>
       </form>
     </div>
   );
