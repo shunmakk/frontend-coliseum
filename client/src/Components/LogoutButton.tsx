@@ -1,6 +1,8 @@
 import React from "react";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
+import { CiLogout } from "react-icons/ci";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
@@ -17,9 +19,16 @@ const LogoutButton = () => {
     return;
   };
   return (
-    <div>
-      <button onClick={handleLogout}>ログアウト</button>
-    </div>
+    <>
+      <Button
+        onClick={handleLogout}
+        leftIcon={<CiLogout />}
+        colorScheme="orange"
+        variant="ghost"
+      >
+        ログアウト
+      </Button>
+    </>
   );
 };
 
