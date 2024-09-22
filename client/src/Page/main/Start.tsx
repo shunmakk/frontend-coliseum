@@ -91,10 +91,10 @@ const Start: React.FC = () => {
             wrap="wrap"
             gap={6}
           >
-            {difficultyOptions.map((option, index) => (
+            {difficultyOptions.map((option) => (
               <div
                 className="w-full md:w-64 bg-slate-50  px-6 py-6 mx-5  my-3 bg-opacity-70 rounded shadow-md"
-                key={index}
+                key={option.level}
               >
                 <Tooltip
                   label={`${option.description2}`}
