@@ -3,6 +3,7 @@ import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import LogoutButton from "../../Components/LogoutButton";
 import BackHomeButton from "../../Components/BackHomeButton";
+import LoadingOrError from "../../Components/LoadingOrError";
 
 interface UserProfile {
   name: string;
@@ -25,10 +26,12 @@ const Profile: React.FC = () => {
         }
       }
     };
-    fetchProfile();
+    setTimeout(() => {
+      fetchProfile();
+    }, 100);
   }, []);
 
-  if (!profile) return <div>Loading...</div>;
+  if (!profile) return <LoadingOrError />;
 
   return (
     <div>
