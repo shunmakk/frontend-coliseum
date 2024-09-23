@@ -27,11 +27,7 @@ const QuizAnswerModal: React.FC<AnswerModalProps> = ({
   setShowExplanation,
 }) => {
   const identificationButton = () => {
-    if (showExplanation === true) {
-      setShowExplanation(false);
-    } else {
-      setShowExplanation(true);
-    }
+    setShowExplanation((explanation) => !explanation);
   };
 
   return (
@@ -45,9 +41,7 @@ const QuizAnswerModal: React.FC<AnswerModalProps> = ({
               : "次の問題に進みましょう！"
             : `正解は: ${correctAnswer}`}
         </p>
-        {!isLastQuestion && (
-          <button onClick={onNextQuestion}>次の問題へ</button>
-        )}
+        {!isLastQuestion && <button onClick={onNextQuestion}>次の問題へ</button>}
         {isLastQuestion && <button onClick={onComplete}>リザルト画面へ</button>}
         <button onClick={identificationButton}>
           {showExplanation ? "解説を閉じる" : "解説を見る"}
