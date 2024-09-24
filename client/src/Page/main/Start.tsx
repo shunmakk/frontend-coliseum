@@ -2,16 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Difficulty } from "../../utils/types";
 import LogoutButton from "../../Components/LogoutButton";
-import {
-  Box,
-  VStack,
-  Heading,
-  Text,
-  Button,
-  Flex,
-  Container,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Box, VStack, Heading, Text, Button, Flex, Container, Tooltip } from "@chakra-ui/react";
 import { FaCode, FaReact, FaRocket, FaUser, FaTrophy } from "react-icons/fa";
 
 const difficultyOptions: Array<{
@@ -54,9 +45,7 @@ const Start: React.FC = () => {
 
   const handleDifficultySelect = (difficulty: Difficulty) => {
     setSelectedDifficulty(difficulty);
-    const confirm = window.confirm(
-      `難易度${difficulty}でクイズを開始しますか？`
-    );
+    const confirm = window.confirm(`難易度${difficulty}でクイズを開始しますか？`);
     if (confirm) {
       navigate(`/quiz/${difficulty}`);
     }
@@ -66,26 +55,17 @@ const Start: React.FC = () => {
     <Box className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 py-10 px-4 pb-20">
       <Container maxW="4xl">
         <VStack spacing={8} align="stretch">
-          <Heading
-            as="h1"
-            textAlign="center"
-            className="text-gray-800 my-4 md:text-3xl text-2xl"
-          >
+          <Heading as="h1" textAlign="center" className="text-gray-800 my-4 md:text-3xl text-2xl">
             フロントエンドコロシアム
           </Heading>
 
-          <Text
-            as="h2"
-            fontSize="xl"
-            textAlign="center"
-            className="text-gray-600 font-bold"
-          >
+          <Text as="h2" fontSize="xl" textAlign="center" className="text-gray-600 font-bold">
             難易度を選択してクイズを開始
           </Text>
 
           <Flex
             direction={{ base: "column", md: "row" }}
-            className="md:mt-56 mt-"
+            className="md:mt-32 mt-2"
             justify="center"
             align="center"
             wrap="wrap"
