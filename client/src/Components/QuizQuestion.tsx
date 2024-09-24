@@ -1,5 +1,6 @@
 import React from "react";
 import { Question } from "../utils/types";
+import { Flex, Button, Box } from "@chakra-ui/react";
 
 interface QuizQuestionProps {
   question: Question & { userAnswer?: number };
@@ -9,29 +10,38 @@ interface QuizQuestionProps {
 //問題文と回答選択肢を表示するコンポーネント
 const QuizQuestion: React.FC<QuizQuestionProps> = ({ question, onAnswer }) => {
   return (
-    <div>
-      <p>{question?.text}</p>
-      {question?.options.map((option, index) => (
-        <button
-          key={index}
-          onClick={() => onAnswer(index)}
-          disabled={question.userAnswer !== undefined}
-          style={{
-            backgroundColor:
-              question.userAnswer === index
-                ? index === question.correctAnswer
+    <Box>
+      <Box className="text-xl">{question?.text}</Box>
+      <Flex
+        justify="center"
+        align="center"
+        wrap="wrap"
+        gap={10}
+        className="mt-8 flex-col md:flex-row"
+      >
+        {question?.options.map((option, index) => (
+          <Button
+            key={index}
+            className="border border-solid p-2 border-teal-400 rounded-sm"
+            variant={question.userAnswer !== undefined ? "solid" : "outline"}
+            onClick={() => onAnswer(index)}
+            isDisabled={question.userAnswer !== undefined}
+            style={{
+              backgroundColor:
+                question.userAnswer === index
+                  ? index === question.correctAnswer
+                    ? "lightgreen"
+                    : "lightcoral"
+                  : question.userAnswer !== undefined && index === question.correctAnswer
                   ? "lightgreen"
-                  : "lightcoral"
-                : question.userAnswer !== undefined &&
-                  index === question.correctAnswer
-                ? "lightgreen"
-                : "white",
-          }}
-        >
-          {option}
-        </button>
-      ))}
-    </div>
+                  : "white",
+            }}
+          >
+            {option}
+          </Button>
+        ))}
+      </Flex>
+    </Box>
   );
 };
 
