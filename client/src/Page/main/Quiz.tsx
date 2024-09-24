@@ -7,6 +7,7 @@ import LoadingOrError from "../../Components/LoadingOrError";
 import QuizQuestion from "../../Components/QuizQuestion";
 import QuizAnswerModal from "../../Components/QuizAnswerModal";
 import QuizExplanationModal from "../../Components/QuizExplanationModal";
+import { Box } from "@chakra-ui/react";
 
 const QUIZ_STATE_KEY = "quizState";
 
@@ -24,6 +25,8 @@ const Quiz: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
+  //解説を見るを選択した時、このモーダルを画面に表示されないようにする
+  const [hide, setHide] = useState<boolean>(false);
 
   const fetchQuestions = useCallback(async () => {
     try {
@@ -111,6 +114,7 @@ const Quiz: React.FC = () => {
   const nextQuestion = () => {
     setShowModal(false);
     setShowExplanation(false);
+    setHide(false);
     setQuizState((prevState) => {
       if (!prevState) return null;
       const nextIndex = prevState.currentQuestionIndex + 1;
@@ -154,32 +158,37 @@ const Quiz: React.FC = () => {
   if (!quizState) return <LoadingOrError />;
 
   const currentQuestion = quizState.questions[quizState.currentQuestionIndex];
-  const isLastQuestion =
-    quizState.currentQuestionIndex === quizState.questions.length - 1;
+  const isLastQuestion = quizState.currentQuestionIndex === quizState.questions.length - 1;
 
   return (
-    <div>
-      <h2>
-        問題{quizState.currentQuestionIndex + 1}/{quizState.questions.length}
-      </h2>
-      <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
-      <QuizAnswerModal
-        show={showModal}
-        isCorrect={isCorrect}
-        isLastQuestion={isLastQuestion}
-        correctAnswer={currentQuestion?.options[currentQuestion.correctAnswer]}
-        onClose={() => setShowExplanation(false)}
-        onNextQuestion={nextQuestion}
-        onComplete={handleComplete}
-        showExplanation={showExplanation}
-        setShowExplanation={setShowExplanation}
-      />
-      <QuizExplanationModal
-        show={showExplanation}
-        explanation={currentQuestion?.explanation}
-        onClose={nextQuestion}
-      />
-    </div>
+    <Box className="min-h-screen bg-gradient-to-br flex  items-center justify-center from-blue-100 via-purple-100 to-pink-100 py-10 px-4 pb-20">
+      <Box className="w-full max-w-4xl p-12  bg-white bg-opacity-70 rounded-xl shadow-xl">
+        <h2 className="text-2xl font-medium mb-3">
+          問題{quizState.currentQuestionIndex + 1}/{quizState.questions.length}
+        </h2>
+        <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
+        <Box mt={6} maxW="md" mx="auto">
+          <QuizAnswerModal
+            show={showModal}
+            isCorrect={isCorrect}
+            isLastQuestion={isLastQuestion}
+            correctAnswer={currentQuestion?.options[currentQuestion.correctAnswer]}
+            onClose={() => setShowExplanation(false)}
+            onNextQuestion={nextQuestion}
+            onComplete={handleComplete}
+            showExplanation={showExplanation}
+            setShowExplanation={setShowExplanation}
+            hide={hide}
+            setHide={setHide}
+          />
+          <QuizExplanationModal
+            show={showExplanation}
+            explanation={currentQuestion?.explanation}
+            onClose={nextQuestion}
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
