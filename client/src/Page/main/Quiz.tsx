@@ -151,7 +151,7 @@ const Quiz: React.FC = () => {
     }
     localStorage.removeItem(QUIZ_STATE_KEY);
     navigate("/complete", {
-      state: { score: quizState.score, total: quizState.questions.length },
+      state: { score: quizState.score, total: quizState.questions.length, difficulty: difficulty },
     });
   };
 

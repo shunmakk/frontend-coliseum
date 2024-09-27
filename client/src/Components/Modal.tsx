@@ -8,7 +8,7 @@ interface ModalProps {
   explanation: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ show, children }) => {
   if (!show) return null;
 
   return (
