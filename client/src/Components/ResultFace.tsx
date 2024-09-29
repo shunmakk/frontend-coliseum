@@ -23,7 +23,7 @@ const ResultFace: React.FC<ResultProps> = ({ score = 0 }) => {
 
   const ResultIcon = getResultFace();
 
-  return <ResultIcon size={30} />;
+  return <ResultIcon size={20} />;
 };
 
 export default ResultFace;

@@ -38,7 +38,12 @@ const ResultMessage: React.FC<ResultProps> = ({ score = 0, difficulty }) => {
         return "予期せぬ難易度です。スコアの計算ができませんでした。";
     }
   };
-  return <p>{getMessage()}</p>;
+  return (
+    <div className="relative bg-white p-3 rounded-lg shadow-sm max-w-md">
+      <div className="absolute w-3 h-3 bg-white transform rotate-45 -left-2 top-4"></div>
+      <p className="relative z-10 text-gray-800">{getMessage()}</p>
+    </div>
+  );
 };
 
 export default ResultMessage;
