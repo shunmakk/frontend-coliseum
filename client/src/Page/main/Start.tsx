@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Difficulty } from "../../utils/types";
-import LogoutButton from "../../Components/LogoutButton";
 import { Box, VStack, Heading, Text, Button, Flex, Container, Tooltip } from "@chakra-ui/react";
-import { FaCode, FaReact, FaRocket, FaUser, FaTrophy } from "react-icons/fa";
+import { FaCode, FaReact, FaRocket } from "react-icons/fa";
+import Footer from "../../Components/Footer";
 
 const difficultyOptions: Array<{
   level: Difficulty;
@@ -113,36 +113,7 @@ const Start: React.FC = () => {
           </Flex>
         </VStack>
       </Container>
-      {/* フッター　別でコンポーネント作る必要ありそう */}
-      <Flex
-        position="fixed"
-        bottom={0}
-        left={0}
-        right={0}
-        bg="#fff"
-        boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
-        justifyContent="space-around"
-        py={30}
-        px={24}
-        // とりあえず768px以下の画面は非表示に
-        css={{
-          "@media screen and (max-width: 767px)": {
-            display: "none",
-          },
-        }}
-      >
-        <Link to="/profile">
-          <Button leftIcon={<FaUser />} colorScheme="teal" variant="ghost">
-            プロフィール
-          </Button>
-        </Link>
-        <Link to="/leaderboard">
-          <Button leftIcon={<FaTrophy />} colorScheme="orange" variant="ghost">
-            ランキング
-          </Button>
-        </Link>
-        <LogoutButton />
-      </Flex>
+      <Footer />
     </Box>
   );
 };
