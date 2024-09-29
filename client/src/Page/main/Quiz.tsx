@@ -161,32 +161,30 @@ const Quiz: React.FC = () => {
   const isLastQuestion = quizState.currentQuestionIndex === quizState.questions.length - 1;
 
   return (
-    <Box className="min-h-screen bg-gradient-to-br flex  items-center justify-center from-blue-100 via-purple-100 to-pink-100 py-10 px-4 pb-20">
-      <Box className="w-full max-w-4xl p-12  bg-white bg-opacity-70 rounded-xl shadow-xl">
-        <h2 className="text-2xl font-medium mb-3">
-          問題{quizState.currentQuestionIndex + 1}/{quizState.questions.length}
-        </h2>
-        <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
-        <Box mt={6} maxW="md" mx="auto">
-          <QuizAnswerModal
-            show={showModal}
-            isCorrect={isCorrect}
-            isLastQuestion={isLastQuestion}
-            correctAnswer={currentQuestion?.options[currentQuestion.correctAnswer]}
-            onClose={() => setShowExplanation(false)}
-            onNextQuestion={nextQuestion}
-            onComplete={handleComplete}
-            showExplanation={showExplanation}
-            setShowExplanation={setShowExplanation}
-            hide={hide}
-            setHide={setHide}
-          />
-          <QuizExplanationModal
-            show={showExplanation}
-            explanation={currentQuestion?.explanation}
-            onClose={nextQuestion}
-          />
-        </Box>
+    <Box className="w-full max-w-4xl p-12  bg-white bg-opacity-70 rounded-xl shadow-xl">
+      <h2 className="text-2xl font-medium mb-3">
+        問題{quizState.currentQuestionIndex + 1}/{quizState.questions.length}
+      </h2>
+      <QuizQuestion question={currentQuestion} onAnswer={handleAnswer} />
+      <Box mt={6} maxW="md" mx="auto">
+        <QuizAnswerModal
+          show={showModal}
+          isCorrect={isCorrect}
+          isLastQuestion={isLastQuestion}
+          correctAnswer={currentQuestion?.options[currentQuestion.correctAnswer]}
+          onClose={() => setShowExplanation(false)}
+          onNextQuestion={nextQuestion}
+          onComplete={handleComplete}
+          showExplanation={showExplanation}
+          setShowExplanation={setShowExplanation}
+          hide={hide}
+          setHide={setHide}
+        />
+        <QuizExplanationModal
+          show={showExplanation}
+          explanation={currentQuestion?.explanation}
+          onClose={nextQuestion}
+        />
       </Box>
     </Box>
   );

@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  collection,
-  query,
-  orderBy,
-  limit,
-  getDocs,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, query, orderBy, limit, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuth } from "../../utils/AuthContext";
 import LoadingOrError from "../../Components/LoadingOrError";
 import ScoreList from "../../Components/ScoreList";
 import UserStats from "../../Components/UserStatus";
-import LogoutButton from "../../Components/LogoutButton";
-import BackHomeButton from "../../Components/BackHomeButton";
+import Footer from "../../Components/Footer";
 
 interface LeaderboardEntry {
   name: string;
@@ -32,8 +23,7 @@ interface LeaderboardData {
 }
 
 const Leaderboard: React.FC = () => {
-  const [leaderboardData, setLeaderboardData] =
-    useState<LeaderboardData | null>(null);
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
@@ -86,11 +76,8 @@ const Leaderboard: React.FC = () => {
             isCurrentUser: true,
           };
 
-          userTotalRank =
-            totalRankSnapshot.docs.findIndex((doc) => doc.id === user.uid) + 1;
-          userAverageRank =
-            averageRankSnapshot.docs.findIndex((doc) => doc.id === user.uid) +
-            1;
+          userTotalRank = totalRankSnapshot.docs.findIndex((doc) => doc.id === user.uid) + 1;
+          userAverageRank = averageRankSnapshot.docs.findIndex((doc) => doc.id === user.uid) + 1;
         }
 
         setLeaderboardData({
@@ -111,7 +98,12 @@ const Leaderboard: React.FC = () => {
   }, [user]);
 
   if (!user || isLoading) {
-    return <LoadingOrError />;
+    return (
+      <>
+        <LoadingOrError />
+        <Footer />
+      </>
+    );
   }
 
   if (!leaderboardData) {
@@ -126,17 +118,13 @@ const Leaderboard: React.FC = () => {
         userTotalRank={leaderboardData.userTotalRank}
         userAverageRank={leaderboardData.userAverageRank}
       />
-      <ScoreList
-        title="総スコアトップ10"
-        leaderboard={leaderboardData.totalScoreLeaderboard}
-      />
+      <ScoreList title="総スコアトップ10" leaderboard={leaderboardData.totalScoreLeaderboard} />
       <ScoreList
         title="平均スコアトップ10"
         leaderboard={leaderboardData.averageScoreLeaderboard}
         isAverage={true}
       />
-      <BackHomeButton />
-      <LogoutButton />
+      <Footer />
     </div>
   );
 };

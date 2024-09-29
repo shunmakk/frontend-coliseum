@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import LogoutButton from "../../Components/LogoutButton";
-import BackHomeButton from "../../Components/BackHomeButton";
 import LoadingOrError from "../../Components/LoadingOrError";
+import Footer from "../../Components/Footer";
 
 interface UserProfile {
   name: string;
@@ -31,7 +30,13 @@ const Profile: React.FC = () => {
     }, 100);
   }, []);
 
-  if (!profile) return <LoadingOrError />;
+  if (!profile)
+    return (
+      <>
+        <LoadingOrError />
+        <Footer />
+      </>
+    );
 
   return (
     <div>
@@ -42,12 +47,9 @@ const Profile: React.FC = () => {
       <p>総スコア: {profile.totalScore}</p>
       <p>
         平均スコア:{" "}
-        {profile.totalGames > 0
-          ? (profile.totalScore / profile.totalGames).toFixed(2)
-          : "N/A"}
+        {profile.totalGames > 0 ? (profile.totalScore / profile.totalGames).toFixed(2) : "N/A"}
       </p>
-      <BackHomeButton />
-      <LogoutButton />
+      <Footer />
     </div>
   );
 };
