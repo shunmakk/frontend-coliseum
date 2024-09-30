@@ -1,36 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { auth, db } from "../../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import React from "react";
+import { Box } from "@chakra-ui/react";
+import { FaUser, FaGamepad } from "react-icons/fa";
+import { IoMdMail } from "react-icons/io";
+import { FcRatings } from "react-icons/fc";
+import { SiSecurityscorecard } from "react-icons/si";
 import LoadingOrError from "../../Components/LoadingOrError";
 import Footer from "../../Components/Footer";
+import { useProfile } from "../../Hooks/UseProfile";
+import { ProfileData } from "../../utils/types";
 
-interface UserProfile {
-  name: string;
-  email: string;
-  totalGames: number;
-  totalScore: number;
-}
+const profileItems = [
+  { icon: FaUser, label: "ユーザー名", key: "name" },
+  { icon: IoMdMail, label: "メールアドレス", key: "email" },
+  { icon: FaGamepad, label: "総プレイ回数", key: "totalGames", suffix: "ゲーム" },
+  { icon: FcRatings, label: "総スコア", key: "totalScore" },
+  {
+    icon: SiSecurityscorecard,
+    label: "平均スコア",
+    key: "averageScore",
+    getValue: (profile: ProfileData) =>
+      profile.totalGames > 0 ? (profile.totalScore / profile.totalGames).toFixed(2) : "N/A",
+  },
+];
+
+const ProfileItem: React.FC<{
+  icon: React.ElementType;
+  label: string;
+  value: string | number;
+}> = ({ icon: Icon, label, value }) => (
+  <div className="flex items-center gap-2 mb-2">
+    <Icon className="text-gray-600" />
+    <span className="font-bold">{label}:</span>
+    <span>{value}</span>
+  </div>
+);
 
 const Profile: React.FC = () => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const { profile, isLoading, error } = useProfile();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setProfile(docSnap.data() as UserProfile);
-        }
-      }
-    };
-    setTimeout(() => {
-      fetchProfile();
-    }, 100);
-  }, []);
-
-  if (!profile)
+  if (isLoading || error)
     return (
       <>
         <LoadingOrError />
@@ -38,19 +46,25 @@ const Profile: React.FC = () => {
       </>
     );
 
+  if (!profile) return null;
+
   return (
-    <div>
-      <h2>Profile</h2>
-      <p>ユーザー名: {profile.name}</p>
-      <p>メールアドレス: {profile.email}</p>
-      <p>総プレイ回数: {profile.totalGames}</p>
-      <p>総スコア: {profile.totalScore}</p>
-      <p>
-        平均スコア:{" "}
-        {profile.totalGames > 0 ? (profile.totalScore / profile.totalGames).toFixed(2) : "N/A"}
-      </p>
+    <Box className="bg-white p-8 rounded-md max-w-xl mx-auto shadow-md">
+      <h2 className="font-bold text-2xl mb-4">プロフィール</h2>
+      {profileItems.map((item) => (
+        <ProfileItem
+          key={item.key}
+          icon={item.icon}
+          label={item.label}
+          value={
+            item.getValue
+              ? item.getValue(profile)
+              : `${profile[item.key as keyof ProfileData]}${item.suffix || ""}`
+          }
+        />
+      ))}
       <Footer />
-    </div>
+    </Box>
   );
 };
 
