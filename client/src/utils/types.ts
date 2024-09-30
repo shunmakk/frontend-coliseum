@@ -8,3 +8,10 @@ export interface Question {
   correctAnswer: number;
   explanation: string;
 }
+
+export interface ProfileData {
+  name: string;
+  email: string;
+  totalGames: number;
+  totalScore: number;
+}
