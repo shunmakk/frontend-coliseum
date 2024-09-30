@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { UserProfile } from "firebase/auth";
+import { ProfileData } from "../utils/types";
 
-export const UseProfile = () => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+export const useProfile = () => {
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  //カスタムフックスを作成し、プロフィールデータの取得ロジックを分離
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -17,7 +16,7 @@ export const UseProfile = () => {
           const docRef = doc(db, "users", user.uid);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            setProfile(docSnap.data() as UserProfile);
+            setProfile(docSnap.data() as ProfileData);
           } else {
             setError("プロフィールが見つかりません");
           }
