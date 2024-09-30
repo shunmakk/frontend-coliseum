@@ -1,5 +1,5 @@
 import React from "react";
-import { Question } from "../utils/types";
+import { Question } from "../lib/types";
 import { Flex, Button, Box } from "@chakra-ui/react";
 
 interface QuizQuestionProps {

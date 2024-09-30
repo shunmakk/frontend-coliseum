@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { ProfileData } from "../utils/types";
+import { ProfileData } from "../lib/types";
 
 export const useProfile = () => {
   const [profile, setProfile] = useState<ProfileData | null>(null);

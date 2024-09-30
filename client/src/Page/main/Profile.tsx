@@ -7,7 +7,7 @@ import { SiSecurityscorecard } from "react-icons/si";
 import LoadingOrError from "../../Components/LoadingOrError";
 import Footer from "../../Components/Footer";
 import { useProfile } from "../../Hooks/UseProfile";
-import { ProfileData } from "../../utils/types";
+import { ProfileData } from "../../lib/types";
 
 const profileItems = [
   { icon: FaUser, label: "ユーザー名", key: "name" },

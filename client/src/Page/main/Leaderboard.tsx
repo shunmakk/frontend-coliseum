@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, query, orderBy, limit, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../Context/AuthContext";
 import LoadingOrError from "../../Components/LoadingOrError";
 import ScoreList from "../../Components/ScoreList";
 import UserStats from "../../Components/UserStatus";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Difficulty } from "../../utils/types";
+import { Difficulty } from "../../lib/types";
 import { Box, VStack, Heading, Text, Button, Flex, Container, Tooltip } from "@chakra-ui/react";
 import { FaCode, FaReact, FaRocket } from "react-icons/fa";
 import Footer from "../../Components/Footer";
@@ -65,7 +65,7 @@ const Start: React.FC = () => {
 
           <Flex
             direction={{ base: "column", md: "row" }}
-            className="md:mt-32 mt-2"
+            className="md:mt-44 mt-2"
             justify="center"
             align="center"
             wrap="wrap"
