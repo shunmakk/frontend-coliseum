@@ -13,24 +13,16 @@ interface ScoreListProps {
   isAverage?: boolean; // 平均スコアのリストかどうかを示すフラグ
 }
 
-const ScoreList: React.FC<ScoreListProps> = ({
-  title,
-  leaderboard,
-  isAverage = false,
-}) => {
+const ScoreList: React.FC<ScoreListProps> = ({ title, leaderboard, isAverage = false }) => {
   return (
-    <div>
-      <h3>{title}</h3>
+    <div className="border-2 border-violet-300 w-full md:w-1/2 px-8 py-6 rounded relative mt-6">
+      <h3 className="absolute left-1/2 transform -translate-x-1/2 -translate-y-10 text-center text-white bg-violet-300 px-4 py-1 w-2/3 rounded-lg font-bold text-sm">
+        {title}
+      </h3>
       <ol>
         {leaderboard.map((entry, index) => (
-          <li
-            key={index}
-            style={
-              entry.isCurrentUser ? { fontWeight: "bold", color: "blue" } : {}
-            }
-          >
-            {entry.name}:{" "}
-            {isAverage ? entry.averageScore.toFixed(1) : entry.totalScore}点
+          <li key={index} style={entry.isCurrentUser ? { fontWeight: "bold", color: "blue" } : {}}>
+            {entry.name}: {isAverage ? entry.averageScore.toFixed(1) : entry.totalScore}点
             {entry.isCurrentUser && " (あなた)"}
           </li>
         ))}

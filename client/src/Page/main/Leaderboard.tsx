@@ -6,6 +6,7 @@ import LoadingOrError from "../../Components/LoadingOrError";
 import ScoreList from "../../Components/ScoreList";
 import UserStats from "../../Components/UserStatus";
 import Footer from "../../Components/Footer";
+import { Box } from "@chakra-ui/react";
 
 interface LeaderboardEntry {
   name: string;
@@ -111,21 +112,28 @@ const Leaderboard: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>ランキング機能</h2>
-      <UserStats
-        userData={leaderboardData.userData}
-        userTotalRank={leaderboardData.userTotalRank}
-        userAverageRank={leaderboardData.userAverageRank}
-      />
-      <ScoreList title="総スコアトップ10" leaderboard={leaderboardData.totalScoreLeaderboard} />
-      <ScoreList
-        title="平均スコアトップ10"
-        leaderboard={leaderboardData.averageScoreLeaderboard}
-        isAverage={true}
-      />
+    <Box className="bg-white p-12  w-full rounded-md max-w-2xl mx-auto shadow-md border">
+      <h2 className="text-center font-bold text-3xl mb-8">ランキング</h2>
+      <Box className="p-2 border-2 border-violet-300 mb-6 relative rounded-md">
+        <h3 className="absolute  text-white bg-violet-300  md:bottom-16 bottom-28 font-bold text-xs border-2 border-violet-300 left-0 p-1 rounded">
+          あなたの指標
+        </h3>
+        <UserStats
+          userData={leaderboardData.userData}
+          userTotalRank={leaderboardData.userTotalRank}
+          userAverageRank={leaderboardData.userAverageRank}
+        />
+      </Box>
+      <div className="flex flex-col md:flex-row justify-between  gap-7 ">
+        <ScoreList title="総スコアトップ10" leaderboard={leaderboardData.totalScoreLeaderboard} />
+        <ScoreList
+          title="平均スコアトップ10"
+          leaderboard={leaderboardData.averageScoreLeaderboard}
+          isAverage={true}
+        />
+      </div>
       <Footer />
-    </div>
+    </Box>
   );
 };
 

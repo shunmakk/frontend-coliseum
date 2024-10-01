@@ -13,23 +13,18 @@ interface UserStatsProps {
   userAverageRank: number | null;
 }
 
-const UserStatus: React.FC<UserStatsProps> = ({
-  userData,
-  userTotalRank,
-  userAverageRank,
-}) => {
+const UserStatus: React.FC<UserStatsProps> = ({ userData, userTotalRank, userAverageRank }) => {
   if (!userData) return null;
 
   return (
-    <div>
+    <>
       <p>
         あなたの総スコア: {userData.totalScore}点 (ランク: {userTotalRank}位)
       </p>
       <p>
-        あなたの平均スコア: {userData.averageScore.toFixed(1)}点 (ランク:{" "}
-        {userAverageRank}位)
+        あなたの平均スコア: {userData.averageScore.toFixed(1)}点 (ランク: {userAverageRank}位)
       </p>
-    </div>
+    </>
   );
 };
 
