@@ -15,7 +15,7 @@ import { Box } from "@chakra-ui/react";
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Box className="min-h-screen bg-gradient-to-br flex  items-center justify-center from-blue-100 via-purple-100 to-pink-100 py-10 px-4 pb-20">
+      <Box className="min-h-screen bg-gradient-to-br flex  items-center justify-center from-blue-100 via-purple-100 to-pink-100 py-10 px-4 pb-20 relative">
         <Router>
           <Routes>
             <Route path="/" element={<SignIn />} />

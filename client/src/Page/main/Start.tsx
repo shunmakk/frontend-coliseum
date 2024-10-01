@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Difficulty } from "../../lib/types";
-import { Box, VStack, Heading, Text, Button, Flex, Container, Tooltip } from "@chakra-ui/react";
+import { Box, Heading, Text, Button, Flex, Container, Tooltip } from "@chakra-ui/react";
 import { FaCode, FaReact, FaRocket } from "react-icons/fa";
 import Footer from "../../Components/Footer";
 
@@ -52,32 +52,35 @@ const Start: React.FC = () => {
   };
 
   return (
-    <Box className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 py-10 px-4 pb-20">
-      <Container maxW="4xl">
-        <VStack spacing={8} align="stretch">
-          <Heading as="h1" textAlign="center" className="text-gray-800 my-4 md:text-3xl text-2xl">
-            フロントエンドコロシアム
-          </Heading>
+    <>
+      {/* ヘッダー部分 */}
+      <Box position="absolute" top="50" left="0" right="0" p={4}>
+        <Heading as="h1" textAlign="center" className="text-gray-800 mt-4 md:text-3xl text-2xl">
+          フロントエンドコロシアム
+        </Heading>
+        <Text as="h2" fontSize="xl" textAlign="center" className="text-gray-600 font-bold mt-2">
+          難易度を選択してクイズを開始
+        </Text>
+      </Box>
 
-          <Text as="h2" fontSize="xl" textAlign="center" className="text-gray-600 font-bold">
-            難易度を選択してクイズを開始
-          </Text>
-
+      {/* 難易度選択部分 */}
+      <Flex alignItems="center" justifyContent="center">
+        <Container maxW="4xl">
           <Flex
             direction={{ base: "column", md: "row" }}
-            className="md:mt-44 mt-2"
             justify="center"
             align="center"
             wrap="wrap"
             gap={6}
+            className="mt-32 md:mt-0"
           >
             {difficultyOptions.map((option) => (
-              <div
-                className="w-full md:w-64 bg-slate-50  px-6 py-6 mx-5  my-3 bg-opacity-70 rounded shadow-md"
+              <Box
                 key={option.level}
+                className="w-full md:w-64 bg-slate-50 px-6 py-6 mx-5 my-3 bg-opacity-70 rounded shadow-md"
               >
                 <Tooltip
-                  label={`${option.description2}`}
+                  label={option.description2}
                   placement="top"
                   className="bg-blue-300 rounded mb-10 py-4 px-2"
                 >
@@ -100,21 +103,22 @@ const Start: React.FC = () => {
                     <Text className="text-xs">{option.description}</Text>
                   </Button>
                 </Tooltip>
-                <div className="flex tems-center justify-center">
+                <Flex justifyContent="center" mt={4}>
                   <Button
                     onClick={() => handleDifficultySelect(option.level)}
-                    className="bg-blue-400 py-1 px-3 rounded-md text-slate-100 "
+                    className="bg-blue-400 py-1 px-3 rounded-md text-slate-100"
                   >
                     開始
                   </Button>
-                </div>
-              </div>
+                </Flex>
+              </Box>
             ))}
           </Flex>
-        </VStack>
-      </Container>
+        </Container>
+      </Flex>
+
       <Footer />
-    </Box>
+    </>
   );
 };
 
