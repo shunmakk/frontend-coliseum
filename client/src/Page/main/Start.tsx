@@ -2,42 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Difficulty } from "../../lib/types";
 import { Box, Heading, Text, Button, Flex, Container, Tooltip } from "@chakra-ui/react";
-import { FaCode, FaReact, FaRocket } from "react-icons/fa";
 import Footer from "../../Components/Footer";
-
-const difficultyOptions: Array<{
-  level: Difficulty;
-  label: string;
-  description: string;
-  description2: string;
-  icon: React.ElementType;
-  color: string;
-}> = [
-  {
-    level: "easy",
-    label: "初級",
-    description: "HTML, CSS, JavaScript",
-    description2: "基礎的な問題です",
-    icon: FaCode,
-    color: "green",
-  },
-  {
-    level: "medium",
-    label: "中級",
-    description: "TypeScript, React, Vue.js",
-    description2: "フレームワーク、TypeScriptに関する問題です",
-    icon: FaReact,
-    color: "blue",
-  },
-  {
-    level: "hard",
-    label: "上級",
-    description: "フロントエンドのパフォーマンス",
-    description2: "あなたがフロントエンドエンジニアなら解ける??",
-    icon: FaRocket,
-    color: "red",
-  },
-];
+import { DifficultyOptions } from "../../lib/DifficultyOptions";
 
 const Start: React.FC = () => {
   const navigate = useNavigate();
@@ -74,7 +40,7 @@ const Start: React.FC = () => {
             gap={6}
             className="mt-32 md:mt-0"
           >
-            {difficultyOptions.map((option) => (
+            {DifficultyOptions.map((option) => (
               <Box
                 key={option.level}
                 className="w-full md:w-64 bg-slate-50 px-6 py-6 mx-5 my-3 bg-opacity-70 rounded shadow-md"
