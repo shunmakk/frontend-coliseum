@@ -2,19 +2,24 @@ import express from "express";
 import { connectToDatabase, getDb } from "./db";
 import { QUESTION_COLLECTION, Question } from "./models/question";
 import { USER_COLLECTION, User } from "./models/user";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+//ミドルウェア設定
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 connectToDatabase();
 
 app.get("/api/questions/:difficulty", async (req, res) => {
-  res.setHeader(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
   res.setHeader("Pragma", "no-cache");
   res.setHeader("Expires", "0");
   const difficulty = req.params.difficulty as "easy" | "medium" | "hard";
