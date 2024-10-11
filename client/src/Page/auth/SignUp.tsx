@@ -17,6 +17,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import "../auth/Custom.css";
 
 export const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -66,12 +67,14 @@ export const SignUp: React.FC = () => {
     <Box className="w-full max-w-3xl p-12 bg-white rounded-xl shadow-2xl">
       <VStack spacing={6} align="stretch">
         <Heading as="h2" textAlign="center" className="text-gray-800 text-2xl my-4 font-semibold">
-          フロントエンドコロシアムへようこそ
+          登録ページ
         </Heading>
         <form onSubmit={handleSignUp} className="my-5">
-          <FormControl id="username" isRequired className="mb-5">
-            <Flex align="center">
-              <label className="text-gray-700 w-1/4 mb-0 text-lg font-bold">ユーザーネーム</label>
+          <FormControl id="username" isRequired className="mb-3 md:mb-5">
+            <Flex className="flex-col md:flex-row md:items-center">
+              <label className="text-gray-700 md:w-1/4 mb-1 md:mb-0 md:text-lg font-bold ">
+                ユーザーネーム
+              </label>
               <InputGroup className="w-3/4">
                 <InputLeftElement pointerEvents="none"></InputLeftElement>
                 <Input
@@ -85,9 +88,11 @@ export const SignUp: React.FC = () => {
               </InputGroup>
             </Flex>
           </FormControl>
-          <FormControl id="email" isRequired className="mb-5">
-            <Flex align="center">
-              <label className="text-gray-700 w-1/4 mb-0 text-lg font-bold">メールアドレス</label>
+          <FormControl id="email" isRequired className="mb-3 md:mb-5">
+            <Flex className="flex-col md:flex-row md:items-center">
+              <label className="text-gray-700 md:w-1/4 mb-1 md:mb-0 md:text-lg font-bold ">
+                メールアドレス
+              </label>
               <InputGroup className="w-3/4">
                 <InputLeftElement pointerEvents="none"></InputLeftElement>
                 <Input
@@ -101,8 +106,10 @@ export const SignUp: React.FC = () => {
             </Flex>
           </FormControl>
           <FormControl id="password" isRequired>
-            <Flex align="center">
-              <label className="text-gray-700 w-1/4 mb-0 text-lg font-bold">パスワード</label>
+            <Flex className="flex-col md:flex-row md:items-center">
+              <label className="text-gray-700 md:w-1/4 mb-1 md:mb-0 md:text-lg font-bold ">
+                パスワード
+              </label>
               <InputGroup className="w-3/4">
                 <InputLeftElement pointerEvents="none"></InputLeftElement>
                 <Input

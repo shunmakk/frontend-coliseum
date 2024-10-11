@@ -1,0 +1,13 @@
+/* 768px以下の画面幅でのみ改行を表示 */
+@media (max-width: 768px) {
+  .sp {
+    display: inline;
+  }
+}
+
+/* 768px以上では改行を無効化 */
+@media (min-width: 769px) {
+  .sp {
+    display: none;
+  }
+}
